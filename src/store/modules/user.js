@@ -1,16 +1,27 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
+import {
+  login,
+  logout,
+  getInfo
+} from '@/api/user'
+import {
+  getToken,
+  setToken,
+  removeToken
+} from '@/utils/auth'
+import {
+  resetRouter
+} from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
-    id:'',
+    id: '',
     name: '',
-    tell:'',
-    addr:'',
-    roles:[],
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+    tell: '',
+    addr: '',
+    roles: [],
+    sex: '',
+    avatar: ''
   }
 }
 
@@ -37,19 +48,31 @@ const mutations = {
   },
   SET_ID: (state, id) => {
     state.id = id
+  },
+  SET_AVATAR: (state, avatar) => {
+    state.avatar = avatar
+  },
+
+  SET_SEX: (state, sex) => {
+    state.sex = sex
   }
-  // SET_AVATAR: (state, avatar) => {
-  //   state.avatar = avatar
-  // }
+
 }
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
-    const { tell, pass } = userInfo
+  login({
+    commit
+  }, userInfo) {
+    const {
+      tell,
+      pass
+    } = userInfo
     return new Promise((resolve, reject) => {
-      login(tell,pass).then(response => {
-        const { data } = response
+      login(tell, pass).then(response => {
+        const {
+          data
+        } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
@@ -60,32 +83,52 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({
+    commit,
+    state
+  }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        const  data  = response.data
+        const data = response.data
 
         if (!data) {
           return reject('Verification failed, please Login again.')
-        } else{
-        console.log(data);
-        let roles
-        const { name, tell,addr ,id} = data
-        if(data.roles ===1){
-          roles=['admin']
+        } else {
+          console.log(data);
+          let roles
+          const {
+            name,
+            tell,
+            addr,
+            id,
+            sex,
+            avatar
+          } = data
+          if (data.roles === 1) {
+            roles = ['admin']
 
-        }else{
-          roles=['Normal']
+          } else {
+            roles = ['normal']
+          }
+          console.log(avatar);
 
+          if (avatar === '') {
+            commit('SET_AVATAR', 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
+          } else {
+            commit('SET_AVATAR', avatar)
+          }
+
+          console.log(roles);
+
+          commit('SET_ROLES', roles)
+          commit('SET_SEX', sex)
+          commit('SET_NAME', name)
+          commit('SET_TELL', tell)
+          commit('SET_ADDR', addr)
+          commit('SET_ID', id)
+
+          resolve(data)
         }
-        console.log(roles);
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_TELL', tell)
-        commit('SET_ADDR', addr)
-        commit('SET_ID', id)
-        resolve(data)
-      }
       }).catch(error => {
         reject(error)
       })
@@ -93,7 +136,10 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state }) {
+  logout({
+    commit,
+    state
+  }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         removeToken() // must remove  token  first
@@ -107,7 +153,9 @@ const actions = {
   },
 
   // remove token
-  resetToken({ commit }) {
+  resetToken({
+    commit
+  }) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
@@ -122,4 +170,3 @@ export default {
   mutations,
   actions
 }
-

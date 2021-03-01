@@ -40,7 +40,7 @@ router.beforeEach(async(to, from, next) => {
             if(roles ===1){
               roles=['admin']
             }else if(roles ===2){
-              roles=['Normal']
+              roles=['normal']
 
             }
 

@@ -46,155 +46,143 @@ export const constantRoutes = [{
     hidden: true
   },
 
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: {
-        title: 'Dashboard',
-        icon: 'dashboard'
-      }
-    }]
-  },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: {
-      title: 'Example',
-      icon: 'el-icon-s-help'
-    },
-    children: [{
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: {
-          title: 'Table',
-          icon: 'table'
-        }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: {
-          title: 'Tree',
-          icon: 'tree'
-        }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [{
-      path: 'index',
-      name: 'Form',
-      component: () => import('@/views/form/index'),
-      meta: {
-        title: 'Form',
-        icon: 'form'
-      }
-    }]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [{
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: {
-          title: 'Menu1'
-        },
-        children: [{
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: {
-              title: 'Menu1-1'
-            }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: {
-              title: 'Menu1-2'
-            },
-            children: [{
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: {
-                  title: 'Menu1-2-1'
-                }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: {
-                  title: 'Menu1-2-2'
-                }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: {
-              title: 'Menu1-3'
-            }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: {
-          title: 'menu2'
-        }
-      }
-    ]
-  },
-
-
-
   // 404 page must be placed at the end !!!
   // { path: '*', redirect: '/404', hidden: true }
 ]
 export const asyncRoutes = [{
-    path: 'external-link',
+    path: '/',
     component: Layout,
+    redirect: 'manage/Brand',
     meta: {
-      roles:['admin']
+      roles: ['admin']
+    },
+    hidden: true
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/order/unreceive',
+    meta: {
+      roles: ['normal']
+    },
+    hidden: true
+  },
+  {
+    path: '/goods',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'Goods',
+      component: () => import('@/views/goods/goods'),
+      meta: {
+        title: '商品',
+        icon: 'el-icon-s-help',
+        roles: ['normal']
+      }
+    }, ]
+
+  },
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/unreceive',
+    name: 'order',
+    meta: {
+      title: '我的订单',
+      icon: 'nested',
+      roles: ['normal']
     },
     children: [{
-      path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-      meta: {
-        title: 'External Link',
-        icon: 'link',
-        roles:['admin']
-      }
-    }]
+        path: 'unreceive',
+        name: 'unreceive',
+        component: () => import('@/views/orderhistory/unreceive'),
+        meta: {
+          title: '待收货',
+          icon: 'table',
+          roles: ['normal']
+        }
+      },
+      {
+        path: 'evaluate',
+        name: 'evaluate',
+        component: () => import('@/views/orderhistory/evaluate'),
+        meta: {
+          title: '待评价',
+          icon: 'table',
+          roles: ['normal']
+        }
+      }, {
+        path: 'allorder',
+        name: 'allorder',
+        component: () => import('@/views/orderhistory/allorder'),
+        meta: {
+          title: '历史订单',
+          icon: 'table',
+          roles: ['normal']
+        }
+      },
+    ]
   },
+  {
+    path: '/manage',
+    component: Layout,
+    children: [{
+      path: 'Brand',
+      name: 'Brand',
+      component: () => import('@/views/manageBrand/index'),
+      meta: {
+        title: '品牌管理',
+        icon: 'el-icon-s-help',
+        roles: ['admin']
+      }
+    }, ]
+
+  },
+  {
+    path: '/manage',
+    component: Layout,
+    children: [{
+      path: 'Deliver',
+      name: 'Deliver',
+      component: () => import('@/views/manageDeliver/index'),
+      meta: {
+        title: '送水人员管理',
+        icon: 'el-icon-s-help',
+        roles: ['admin']
+      }
+    }, ]
+
+  },
+  {
+    path: '/manage',
+    component: Layout,
+    children: [{
+      path: 'Order',
+      name: 'Order',
+      component: () => import('@/views/manageOrder/index'),
+      meta: {
+        title: '订单管理',
+        icon: 'el-icon-s-help',
+        roles: ['admin']
+      }
+    }, ]
+
+  },
+  {
+    path: '/profile',
+    component: Layout,
+    redirect: '/profile/index',
+
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/profile/index'),
+        name: 'Profile',
+        meta: { title: '我的', icon: 'user', noCache: true ,roles: ['normal','admin'] }
+      }
+    ]
+  },
+
   {
     path: '*',
     redirect: '/404',

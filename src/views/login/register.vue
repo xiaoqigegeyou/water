@@ -20,6 +20,12 @@
         <el-form-item label="电话号码" prop="tell">
           <el-input v-model="ruleForm.tell" placeholder="电话号码"></el-input>
         </el-form-item>
+        <el-form-item label="性别" prop="sex">
+          <el-radio-group v-model="ruleForm.sex">
+            <el-radio label="男"></el-radio>
+            <el-radio label="女"></el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="密码" prop="pass">
           <el-input type="password" v-model="ruleForm.pass" autocomplete="off" placeholder="密码"></el-input>
         </el-form-item>
@@ -84,6 +90,7 @@ export default {
       ruleForm: {
         name: "",
         tell: "",
+        sex: "男",
         pass: "",
         checkPass: "",
         addr: "",
@@ -99,6 +106,7 @@ export default {
           },
         ],
         tell: [{ required: true, validator: validatetell, trigger: "blur" }],
+        sex: [{ required: true, message: "请选择性别", trigger: "change" }],
         pass: [{ required: true, validator: validatePass, trigger: "blur" }],
         checkPass: [
           { required: true, validator: validatePass2, trigger: "blur" },

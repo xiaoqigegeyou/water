@@ -54,6 +54,7 @@ export default {
       //   alert("登陆成功");
       // else alert("账号或密码错误");
       this.$store.dispatch("user/login", this.ruleForm).then(() => {
+        console.log(11);
         this.$router.push('/');
       });
     },

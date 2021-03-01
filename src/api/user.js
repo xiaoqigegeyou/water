@@ -19,6 +19,13 @@ export function getInfo(token) {
     params: { token }
   })
 }
+export function updateInfo(data) {
+  return request({
+    url: '/user/updateInfo',
+    method: 'post',
+    data
+  })
+}
 
 export function logout() {
   return request({
