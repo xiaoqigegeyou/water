@@ -21,13 +21,13 @@
           <el-input-number v-model="num" @change="handleChange" :min="1" :max="100" label="描述文字"></el-input-number>
         </el-form-item>
 
-        <el-form-item label="送水人员"  prop="person">
-          <el-select v-model="form.person" placeholder="请选择">
+        <el-form-item label="送水人员"  prop="did">
+          <el-select v-model="form.did"  placeholder="请选择">
             <el-option
               v-for="(item,index) in deliver"
               :key="index"
               :label="item.name"
-              :value="item.name"
+              :value="item.id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -73,6 +73,8 @@ export default {
         starttime: new Date(),
         appointmenttime: "",
         price: "",
+        uid:this.$store.getters.id,
+        did:''
       },
       deliver: [],
       delivery: false,
@@ -101,10 +103,7 @@ export default {
     allDeliver().then((response) => (this.deliver = response.data));
   },
   methods: {
-    // onSubmit() {
-    //   console.log(this.form);
-    //   insrtOrder(this.form).then(alert("提交成功"));
-    // },
+
  onSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

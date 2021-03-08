@@ -52,7 +52,7 @@ export const constantRoutes = [{
 export const asyncRoutes = [{
     path: '/',
     component: Layout,
-    redirect: 'manage/Brand',
+    redirect: 'manage1/Brand',
     meta: {
       roles: ['admin']
     },
@@ -124,7 +124,7 @@ export const asyncRoutes = [{
     ]
   },
   {
-    path: '/manage',
+    path: '/manage1',
     component: Layout,
     children: [{
       path: 'Brand',
@@ -139,7 +139,7 @@ export const asyncRoutes = [{
 
   },
   {
-    path: '/manage',
+    path: '/manage2',
     component: Layout,
     children: [{
       path: 'Deliver',
@@ -154,7 +154,7 @@ export const asyncRoutes = [{
 
   },
   {
-    path: '/manage',
+    path: '/manage3',
     component: Layout,
     children: [{
       path: 'Order',

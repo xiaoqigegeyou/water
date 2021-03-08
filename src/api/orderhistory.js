@@ -14,3 +14,10 @@ export function updateorder(data) {
     data
   })
 }
+export function deleteorder(data) {
+  return request({
+    url: '/order/deleteorder',
+    method: 'post',
+    data
+  })
+}

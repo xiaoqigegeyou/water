@@ -188,7 +188,7 @@ export default {
       total: 0,
       listLoading: true,
       listQuery: {
-            page: 1,
+        page: 1,
         limit: 10,
         name: '',
         tell: '',
