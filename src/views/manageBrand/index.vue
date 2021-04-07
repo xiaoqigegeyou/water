@@ -42,13 +42,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="单价" align="center" sortable prop="price" width="150">
+      <el-table-column label="单价" align="center" sortable prop="price" width="100">
         <template slot-scope="{row}">
           <span>{{ row.price }}元</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="描述" width="610px" align="center">
+      <el-table-column label="描述" width="500px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.message }}</span>
         </template>
@@ -59,8 +59,18 @@
           <!-- <span>{{ row.image }}</span> -->
         </template>
       </el-table-column>
+ <el-table-column label="容量" align="center"  prop="capacity" width="100">
+        <template slot-scope="{row}">
+          <span>{{ row.capacity }}</span>
+        </template>
+      </el-table-column>
+       <el-table-column label="保质期" align="center" prop="warranty" width="100">
+        <template slot-scope="{row}">
+          <span>{{ row.warranty }}</span>
+        </template>
+      </el-table-column>
 
-      <el-table-column label="操作" align="center" width="299" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="259" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">修改</el-button>
           <el-button
@@ -99,6 +109,13 @@
         <el-form-item label="图片" prop="image" style="width:800px">
           <el-input type="textarea" autosize v-model="temp.image" />
         </el-form-item>
+        <el-form-item label="容量" prop="capacity" style="width:800px">
+          <el-input v-model="temp.capacity" />
+        </el-form-item>
+        <el-form-item label="保质期" prop="warranty" style="width:800px">
+          <el-input v-model="temp.warranty" />
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer" style="margin-right:100px;">
         <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -149,6 +166,9 @@ export default {
         price: "",
         message: "",
         image: "",
+        capacity: "",
+        warranty: "",
+
       },
       rules: {
         name: [{ required: true, message: "品牌名不能为空", trigger: "blur" }],

@@ -37,8 +37,13 @@
             placeholder="确认密码"
           ></el-input>
         </el-form-item>
-        <el-form-item label="配送地址" prop="addr">
-          <el-input type="textarea" v-model="ruleForm.addr" placeholder="配送地址"></el-input>
+        <el-form-item label="选择区域" prop="area">
+          <!-- <el-input type="textarea" v-model="ruleForm.addr" placeholder="配送地址"></el-input> -->
+           <cascader-area v-model="area" />
+        </el-form-item>
+         <el-form-item label="详细地址" prop="addr">
+          <el-input type="textarea" v-model="ruleForm.addr" placeholder="小区楼道/乡村名称"></el-input>
+
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">立即注册</el-button>
@@ -51,7 +56,11 @@
 
 <script>
 import { register } from "@/api/user";
+import  CascaderArea from "@/components/CascaderArea";
 export default {
+   components: {
+    CascaderArea,
+  },
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -86,14 +95,18 @@ export default {
     };
 
     return {
+      // area: ['山东省' , '济南市' , '长清区'],
+
       labelPosition: "right",
+      area:[],
       ruleForm: {
         name: "",
         tell: "",
         sex: "男",
         pass: "",
         checkPass: "",
-        addr: "",
+        area:'',
+        addr: '',
       },
       rules: {
         name: [
@@ -118,6 +131,10 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+
+
+            this.ruleForm.area= this.area.join(",")
+            console.log(this.ruleForm);
           register(this.ruleForm)
             .then(alert("注册成功!"))
             .then(this.$router.push("/login"));
@@ -166,7 +183,7 @@ export default {
   background-position: center center;
 }
 .demo-ruleForm {
-  width: 350px;
+  width: 400px;
   padding: 50px 40px 50px;
   overflow: hidden;
 }

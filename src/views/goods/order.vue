@@ -1,12 +1,23 @@
 <template>
   <div>
     <div style=" float:right">
-      <el-button type="text" @click="dialogFormVisible = true">
-        <h3>立即预约</h3>
+        <el-popover
+    placement="top-start"
+    title="详情"
+    width="200"
+    trigger="hover"
+    :content="details">
+    <p class="tipck">容量：{{capacity}}</p>
+    <p class="tipck">保质期：{{warranty}} </p>
+    <el-button type="text" slot="reference">详情</el-button>
+  </el-popover>
+  &nbsp;&nbsp;&nbsp;
+      <el-button type="danger" size="mini" @click="dialogFormVisible = true">
+        立即预约
       </el-button>
     </div>
     <el-dialog title="确认订单" :visible.sync="dialogFormVisible">
-      <el-form ref="form" :model="form"   :rules="rules" :label-width="formLabelWidth">
+      <el-form ref="form" :model="form" :rules="rules" :label-width="formLabelWidth">
         <!-- //name -->
         <input type="hidden" v-model="form.name" />
 
@@ -21,8 +32,8 @@
           <el-input-number v-model="num" @change="handleChange" :min="1" :max="100" label="描述文字"></el-input-number>
         </el-form-item>
 
-        <el-form-item label="送水人员"  prop="did">
-          <el-select v-model="form.did"  placeholder="请选择">
+        <el-form-item label="送水人员" prop="did">
+          <el-select v-model="form.did" placeholder="请选择">
             <el-option
               v-for="(item,index) in deliver"
               :key="index"
@@ -33,16 +44,28 @@
         </el-form-item>
 
         <el-form-item label="预约时间" prop="appointmenttime">
-          <el-date-picker v-model="form.appointmenttime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker
+            v-model="form.appointmenttime"
+            :picker-options="pickerOption"
+            type="datetime"
+            @change="handle"
+            format="yyyy-MM-dd HH:mm"
+            placeholder="选择日期时间"
+          ></el-date-picker>
         </el-form-item>
-        <el-form-item label="即时配送" >
+        <el-form-item label="即时配送">
           <el-switch v-model="delivery"></el-switch>
         </el-form-item>
         <el-form-item label="电话" style="width:600px">
           <el-input v-model="form.tell"></el-input>
         </el-form-item>
-        <el-form-item label="地址" style="width:800px">
-          <el-input type="textarea" autosize v-model="form.addr"></el-input>
+        <el-form-item label="地区" style="width:800px">
+            <cascader-area v-model="area" />
+          <!-- <el-input type="textarea" autosize v-model="form.addr"></el-input> -->
+        </el-form-item>
+         <el-form-item label="详细地址" style="width:800px">
+
+          <el-input type="textarea" autosize v-model="addr"></el-input>
         </el-form-item>
         <el-form-item>
           <h3>总价：{{sum}}元</h3>
@@ -58,24 +81,32 @@
 
 <script>
 import { insrtOrder, allBrand, allDeliver } from "@/api/goods";
-
+import  CascaderArea from "@/components/CascaderArea";
 export default {
+   components: {
+    CascaderArea,
+  },
   props: ["OneBrand"],
 
   data() {
     return {
+      area: this.$store.getters.area,
+        addr: this.$store.getters.addr,
       form: {
         name: this.$store.getters.name,
         tell: this.$store.getters.tell,
-        addr: this.$store.getters.addr,
+        addr: '',
         bname: this.OneBrand.name,
         person: "",
         starttime: new Date(),
         appointmenttime: "",
         price: "",
-        uid:this.$store.getters.id,
-        did:''
+        uid: this.$store.getters.id,
+        did: "",
       },
+      capacity:this.OneBrand.capacity,
+      warranty:this.OneBrand.warranty,
+
       deliver: [],
       delivery: false,
       formLabelWidth: "180px",
@@ -84,12 +115,23 @@ export default {
       dialogFormVisible: false,
 
       rules: {
-       person: [
-            { required: true, message: '请选择配送人员', trigger: 'blur' }
-          ],
-          appointmenttime: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
-          ],
+        did: [
+          { required: true, message: "请选择配送人员", trigger: "blur" },
+        ],
+        appointmenttime: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "blur",
+          },
+        ],
+      },
+      pickerOption: {
+
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        },
       },
     };
   },
@@ -98,24 +140,52 @@ export default {
       this.form.price = this.num * this.OneBrand.price;
       return this.num * this.OneBrand.price;
     },
+    details(){
+      return '容量：'+this.capacity+'\n\r保质期：'+this.warranty
+    }
   },
   created() {
     allDeliver().then((response) => (this.deliver = response.data));
   },
   methods: {
-
- onSubmit(formName) {
+    onSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-        console.log(this.form);
-        this.dialogFormVisible = false
-        insrtOrder(this.form).then(alert("提交成功"));
+          this.$confirm('确认提交?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '提交成功!'
+          });
+           console.log(this.form);
+          this.dialogFormVisible = false;
+          this.form.addr=this.area.join(" ")+" "+this.addr
+          insrtOrder(this.form).then(this.$router.push('/result/success'));
+          // this.$router.push('/result/success');
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+          this.$router.push('/result/erro');
+        });
+
         } else {
           console.log(this.form);
-          alert("请填写完整信息")
+          alert("请填写完整信息");
           return false;
         }
       });
+    },
+
+handle: function() {
+       var startAt = new Date(this.form.appointmenttime) * 1000 /1000;
+        if(startAt < Date.now()) {
+            this.form.appointmenttime= new Date();
+        }
     },
     handleChange(value) {
       console.log(value);

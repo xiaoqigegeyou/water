@@ -2,6 +2,7 @@
   <div class="card">
     <el-row :gutter="100" style="height:400px">
       <el-col :span="8" v-for="(b,index) in brand" :key="index" :offset="1" style="width:350px">
+        
         <el-card :body-style="{ padding: '0px', height:'360px' }" shadow="hover">
           <img :src="b.image" class="image" />
           <div style="padding: 14px;">

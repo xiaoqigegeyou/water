@@ -68,6 +68,23 @@ export const asyncRoutes = [{
     hidden: true
   },
   {
+    path: '/result',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: 'success',
+      name: 'success',
+      component: () => import('@/views/success'),
+
+    },
+    {
+      path: 'erro',
+      name: 'erro',
+      component: () => import('@/views/erro'),
+
+    },]
+  },
+  {
     path: '/goods',
     component: Layout,
     children: [{

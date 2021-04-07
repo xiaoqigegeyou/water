@@ -31,7 +31,7 @@
         <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>地址</span></div>
         <div class="user-bio-section-body">
           <div class="progress-item">
-            {{user.addr}}
+            {{address}}
           </div>
 
         </div>
@@ -64,10 +64,21 @@ export default {
           avatar: '',
           role: '',
           addr:'',
+          area:[]
         }
       }
     }
-  }
+  },
+   computed: {
+    address() {
+     if(this.user.area.length === 0){
+      return this.user.area+" "+this.user.addr;
+      }else{
+        return this.user.area.join(" ")+" "+this.user.addr
+      }
+    },
+
+  },
 }
 </script>
 

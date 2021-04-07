@@ -18,8 +18,9 @@ const getDefaultState = () => {
     id: '',
     name: '',
     tell: '',
+    area:[],
     addr: '',
-    roles: [],
+    roles: '',
     sex: '',
     avatar: ''
   }
@@ -39,6 +40,9 @@ const mutations = {
   },
   SET_TELL: (state, tell) => {
     state.tell = tell
+  },
+  SET_AREA: (state, area) => {
+    state.area = area
   },
   SET_ADDR: (state, addr) => {
     state.addr = addr
@@ -99,31 +103,38 @@ const actions = {
           const {
             name,
             tell,
+            area,
             addr,
             id,
             sex,
             avatar
           } = data
+
           if (data.roles === 1) {
             roles = ['admin']
 
           } else {
             roles = ['normal']
           }
-          console.log(avatar);
 
-          if (avatar === '') {
+          if (avatar === ''||typeof(avatar) == "undefined") {
             commit('SET_AVATAR', 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
           } else {
             commit('SET_AVATAR', avatar)
           }
 
-          console.log(roles);
 
+          if (area === ''||typeof(area) == "undefined") {
+            commit('SET_AREA', [])
+          } else {
+            commit('SET_AREA', area.split(','))
+          }
+          console.log(area);
           commit('SET_ROLES', roles)
           commit('SET_SEX', sex)
           commit('SET_NAME', name)
           commit('SET_TELL', tell)
+
           commit('SET_ADDR', addr)
           commit('SET_ID', id)
 
