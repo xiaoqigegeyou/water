@@ -30,7 +30,7 @@
       <div class="user-skills user-bio-section">
         <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>地址</span></div>
         <div class="user-bio-section-body">
-          <div class="progress-item">
+          <div class="text-muted">
             {{address}}
           </div>
 
@@ -72,7 +72,7 @@ export default {
    computed: {
     address() {
      if(this.user.area.length === 0){
-      return this.user.area+" "+this.user.addr;
+      return this.user.addr;
       }else{
         return this.user.area.join(" ")+" "+this.user.addr
       }
@@ -90,6 +90,9 @@ export default {
 
 .text-muted {
   color: #777;
+  padding-bottom: 10px;
+  margin-left: 20px;
+
 }
 
 .user-profile {

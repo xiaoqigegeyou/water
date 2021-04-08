@@ -61,7 +61,7 @@ export const asyncRoutes = [{
   {
     path: '/',
     component: Layout,
-    redirect: '/order/unreceive',
+    redirect: '/goods/index',
     meta: {
       roles: ['normal']
     },

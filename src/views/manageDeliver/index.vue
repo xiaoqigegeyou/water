@@ -201,9 +201,7 @@ export default {
       this.resetTemp();
       this.dialogStatus = "create";
       this.dialogFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
+      form2
     },
     createData() {
       this.$refs["dataForm"].validate((valid) => {

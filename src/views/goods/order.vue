@@ -72,7 +72,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit('form')">提交订单</el-button>
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button @click="dialogFormVisible = false" >取 消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -165,11 +165,17 @@ export default {
           this.form.addr=this.area.join(" ")+" "+this.addr
           insrtOrder(this.form).then(this.$router.push('/result/success'));
           // this.$router.push('/result/success');
+           this.$nextTick(() => {
+        this.$refs[formName].clearValidate();
+      });
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消'
           });
+      //      this.$nextTick(() => {
+      //   this.$refs[formName].clearValidate();
+      // });
           this.$router.push('/result/erro');
         });
 

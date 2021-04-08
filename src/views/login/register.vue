@@ -27,11 +27,11 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="密码" prop="pass">
-          <el-input type="password" v-model="ruleForm.pass" autocomplete="off" placeholder="密码"></el-input>
+          <el-input show-password  v-model="ruleForm.pass" autocomplete="off" placeholder="密码"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">
           <el-input
-            type="password"
+            show-password 
             v-model="ruleForm.checkPass"
             autocomplete="off"
             placeholder="确认密码"
