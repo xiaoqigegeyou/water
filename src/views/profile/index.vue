@@ -47,7 +47,7 @@ export default {
     }
   },
   computed: {
-  ...mapGetters([
+    ...mapGetters([
       'id',
       'name',
       'sex',
@@ -65,15 +65,15 @@ export default {
   },
   methods: {
     getUser() {
-      this.user ={
-        id:this.id,
+      this.user = {
+        id: this.id,
         name: this.name,
         roles: this.roles,
-        sex:this.sex,
-        tell:this.tell,
-        avatar:this.avatar,
-        area:this.area,
-        addr: this.addr,
+        sex: this.sex,
+        tell: this.tell,
+        avatar: this.avatar,
+        area: this.area,
+        addr: this.addr
       }
     }
   }

@@ -31,181 +31,181 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [{
-    path: '/login',
-    component: () => import('@/views/login/login'),
-    hidden: true
-  },
-  {
-    path: '/register',
-    component: () => import('@/views/login/register'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
+  path: '/login',
+  component: () => import('@/views/login/login'),
+  hidden: true
+},
+{
+  path: '/register',
+  component: () => import('@/views/login/register'),
+  hidden: true
+},
+{
+  path: '/404',
+  component: () => import('@/views/404'),
+  hidden: true
+}
 
   // 404 page must be placed at the end !!!
   // { path: '*', redirect: '/404', hidden: true }
 ]
 export const asyncRoutes = [{
-    path: '/',
-    component: Layout,
-    redirect: 'manage1/Brand',
-    meta: {
-      roles: ['admin']
-    },
-    hidden: true
+  path: '/',
+  component: Layout,
+  redirect: 'manage1/Brand',
+  meta: {
+    roles: ['admin']
+  },
+  hidden: true
+},
+{
+  path: '/',
+  component: Layout,
+  redirect: '/goods/index',
+  meta: {
+    roles: ['normal']
+  },
+  hidden: true
+},
+{
+  path: '/result',
+  component: Layout,
+  hidden: true,
+  children: [{
+    path: 'success',
+    name: 'success',
+    component: () => import('@/views/success')
+
   },
   {
-    path: '/',
-    component: Layout,
-    redirect: '/goods/index',
+    path: 'erro',
+    name: 'erro',
+    component: () => import('@/views/erro')
+
+  }]
+},
+{
+  path: '/goods',
+  component: Layout,
+  children: [{
+    path: 'index',
+    name: 'Goods',
+    component: () => import('@/views/goods/goods'),
     meta: {
+      title: '商品',
+      icon: 'el-icon-s-help',
       roles: ['normal']
-    },
-    hidden: true
-  },
-  {
-    path: '/result',
-    component: Layout,
-    hidden: true,
-    children: [{
-      path: 'success',
-      name: 'success',
-      component: () => import('@/views/success'),
+    }
+  }]
 
-    },
-    {
-      path: 'erro',
-      name: 'erro',
-      component: () => import('@/views/erro'),
-
-    },]
+},
+{
+  path: '/order',
+  component: Layout,
+  redirect: '/order/unreceive',
+  name: 'order',
+  meta: {
+    title: '我的订单',
+    icon: 'nested',
+    roles: ['normal']
   },
-  {
-    path: '/goods',
-    component: Layout,
-    children: [{
-      path: 'index',
-      name: 'Goods',
-      component: () => import('@/views/goods/goods'),
-      meta: {
-        title: '商品',
-        icon: 'el-icon-s-help',
-        roles: ['normal']
-      }
-    }, ]
-
-  },
-  {
-    path: '/order',
-    component: Layout,
-    redirect: '/order/unreceive',
-    name: 'order',
+  children: [{
+    path: 'unreceive',
+    name: 'unreceive',
+    component: () => import('@/views/orderhistory/unreceive'),
     meta: {
-      title: '我的订单',
-      icon: 'nested',
+      title: '待收货',
+      icon: 'table',
       roles: ['normal']
-    },
-    children: [{
-        path: 'unreceive',
-        name: 'unreceive',
-        component: () => import('@/views/orderhistory/unreceive'),
-        meta: {
-          title: '待收货',
-          icon: 'table',
-          roles: ['normal']
-        }
-      },
-      {
-        path: 'evaluate',
-        name: 'evaluate',
-        component: () => import('@/views/orderhistory/evaluate'),
-        meta: {
-          title: '待评价',
-          icon: 'table',
-          roles: ['normal']
-        }
-      }, {
-        path: 'allorder',
-        name: 'allorder',
-        component: () => import('@/views/orderhistory/allorder'),
-        meta: {
-          title: '历史订单',
-          icon: 'table',
-          roles: ['normal']
-        }
-      },
-    ]
+    }
   },
   {
-    path: '/manage1',
-    component: Layout,
-    children: [{
-      path: 'Brand',
-      name: 'Brand',
-      component: () => import('@/views/manageBrand/index'),
-      meta: {
-        title: '品牌管理',
-        icon: 'el-icon-s-help',
-        roles: ['admin']
-      }
-    }, ]
-
-  },
-  {
-    path: '/manage2',
-    component: Layout,
-    children: [{
-      path: 'Deliver',
-      name: 'Deliver',
-      component: () => import('@/views/manageDeliver/index'),
-      meta: {
-        title: '送水人员管理',
-        icon: 'el-icon-s-help',
-        roles: ['admin']
-      }
-    }, ]
-
-  },
-  {
-    path: '/manage3',
-    component: Layout,
-    children: [{
-      path: 'Order',
-      name: 'Order',
-      component: () => import('@/views/manageOrder/index'),
-      meta: {
-        title: '订单管理',
-        icon: 'el-icon-s-help',
-        roles: ['admin']
-      }
-    }, ]
-
-  },
-  {
-    path: '/profile',
-    component: Layout,
-    redirect: '/profile/index',
-
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/profile/index'),
-        name: 'Profile',
-        meta: { title: '我的', icon: 'user', noCache: true ,roles: ['normal','admin'] }
-      }
-    ]
-  },
-
-  {
-    path: '*',
-    redirect: '/404',
-    hidden: true
+    path: 'evaluate',
+    name: 'evaluate',
+    component: () => import('@/views/orderhistory/evaluate'),
+    meta: {
+      title: '待评价',
+      icon: 'table',
+      roles: ['normal']
+    }
+  }, {
+    path: 'allorder',
+    name: 'allorder',
+    component: () => import('@/views/orderhistory/allorder'),
+    meta: {
+      title: '历史订单',
+      icon: 'table',
+      roles: ['normal']
+    }
   }
-];
+  ]
+},
+{
+  path: '/manage1',
+  component: Layout,
+  children: [{
+    path: 'Brand',
+    name: 'Brand',
+    component: () => import('@/views/manageBrand/index'),
+    meta: {
+      title: '品牌管理',
+      icon: 'el-icon-s-help',
+      roles: ['admin']
+    }
+  }]
+
+},
+{
+  path: '/manage2',
+  component: Layout,
+  children: [{
+    path: 'Deliver',
+    name: 'Deliver',
+    component: () => import('@/views/manageDeliver/index'),
+    meta: {
+      title: '送水人员管理',
+      icon: 'el-icon-s-help',
+      roles: ['admin']
+    }
+  }]
+
+},
+{
+  path: '/manage3',
+  component: Layout,
+  children: [{
+    path: 'Order',
+    name: 'Order',
+    component: () => import('@/views/manageOrder/index'),
+    meta: {
+      title: '订单管理',
+      icon: 'el-icon-s-help',
+      roles: ['admin']
+    }
+  }]
+
+},
+{
+  path: '/profile',
+  component: Layout,
+  redirect: '/profile/index',
+
+  children: [
+    {
+      path: 'index',
+      component: () => import('@/views/profile/index'),
+      name: 'Profile',
+      meta: { title: '我的', icon: 'user', noCache: true, roles: ['normal', 'admin'] }
+    }
+  ]
+},
+
+{
+  path: '*',
+  redirect: '/404',
+  hidden: true
+}
+]
 const createRouter = () => new Router({
   mode: 'history', // require service support
   scrollBehavior: () => ({

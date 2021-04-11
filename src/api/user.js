@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function login(tell,pass) {
+export function login(tell, pass) {
   return request({
     url: '/user/login',
     method: 'post',

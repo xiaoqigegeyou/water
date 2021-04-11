@@ -48,10 +48,8 @@
       fit
       highlight-current-row
       style="width: 100%;"
-
-
     >
-      <el-table-column label="ID" type="index"  align="center" width="50">
+      <el-table-column label="ID" type="index" align="center" width="50">
         <!-- <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template> -->
@@ -66,28 +64,28 @@
           <span>{{ row.bname }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="开始时间" width="135px" sortable prop="date" align="center" >
+      <el-table-column label="开始时间" width="135px" sortable prop="date" align="center">
         <template slot-scope="{row}">
           <span>{{ row.starttime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="预约时间" width="135px"  align="center">
+      <el-table-column label="预约时间" width="135px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.appointmenttime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="结束时间" width="150px"  align="center">
+      <el-table-column label="结束时间" width="150px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.endtime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="送水人员" width="80px"  align="center">
+      <el-table-column label="送水人员" width="80px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.person }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="评分" width="180px"  prop="rate" align="center">
+      <el-table-column label="评分" width="180px" prop="rate" align="center">
         <template slot-scope="{row}">
           <el-rate
             v-model="row.rate"
@@ -95,7 +93,7 @@
             show-score
             text-color="#ff9900"
             score-template="{value}"
-          ></el-rate>
+          />
         </template>
       </el-table-column>
 
@@ -111,11 +109,11 @@
           <el-tag
             v-if="row.appointmenttime > row.endtime"
             type="success"
-          > <div v-html="'准&nbsp;&nbsp;&nbsp;&nbsp;时'"></div> </el-tag>
+          > <div v-html="'准&nbsp;&nbsp;&nbsp;&nbsp;时'" /> </el-tag>
           <el-tag
             v-else-if="row.appointmenttime < row.endtime"
             type="danger"
-          > <div v-html="'超&nbsp;&nbsp;&nbsp;&nbsp;时'"></div> </el-tag>
+          > <div v-html="'超&nbsp;&nbsp;&nbsp;&nbsp;时'" /> </el-tag>
           <el-tag v-else type="info"> 未完成 </el-tag>
         </template>
       </el-table-column>
@@ -161,40 +159,35 @@
 </template>
 
 <script>
-import { allBrand, allDeliver } from "@/api/goods";
-import { selectorder,deleteorder } from "@/api/orderhistory";
+import { allBrand, allDeliver } from '@/api/goods'
+import { selectorder, deleteorder } from '@/api/orderhistory'
 
-import Pagination from "@/components/Pagination";
+import Pagination from '@/components/Pagination'
 
 export default {
   components: { Pagination },
   filters: {
     statusFilter(status) {
       const statusMap = {
-        1: "a",
-        2: "warning",
-        3: "success",
-      };
-      return statusMap[status];
+        1: 'a',
+        2: 'warning',
+        3: 'success'
+      }
+      return statusMap[status]
     },
     tagFilter(status) {
-      let tag;
+      let tag
       if (status === 1) {
-        tag = "配送中";
+        tag = '配送中'
       } else if (status === 2) {
-        tag = "已送达";
+        tag = '已送达'
       } else if (status === 3) {
-        tag = "已评价";
+        tag = '已评价'
       }
 
-      return tag;
-    },
+      return tag
+    }
 
-  },
-  created() {
-    allDeliver().then((response) => (this.deliver = response.data));
-    allBrand().then((response) => (this.brand = response.data));
-    this.getList();
   },
   data() {
     return {
@@ -207,44 +200,49 @@ export default {
         limit: 10,
         name: '',
         tell: '',
-        bname: "",
-        person: "",
-        uid:'',
+        bname: '',
+        person: '',
+        uid: ''
       },
       deliver: [],
-      brand: [],
-    };
+      brand: []
+    }
+  },
+  created() {
+    allDeliver().then((response) => (this.deliver = response.data))
+    allBrand().then((response) => (this.brand = response.data))
+    this.getList()
   },
   methods: {
     getList() {
-      this.listLoading = false;
+      this.listLoading = false
       selectorder(this.listQuery).then((response) => {
-        this.list = response.data.items;
-        this.total = response.data.total;
+        this.list = response.data.items
+        this.total = response.data.total
 
         // Just to simulate the time of the request
         setTimeout(() => {
-          this.listLoading = false;
-        }, 1.5 * 1000);
-      });
+          this.listLoading = false
+        }, 1.5 * 1000)
+      })
     },
     handleFilter() {
-      this.listQuery.page = 1;
-      this.getList();
+      this.listQuery.page = 1
+      this.getList()
     },
-handleDelete(row, index) {
+    handleDelete(row, index) {
       deleteorder(row.id).then(() => {
         this.$notify({
-          title: "Success",
-          message: "删除成功",
-          type: "success",
-          duration: 2000,
-        });
-        this.list.splice(index, 1);
-      });
-    },
+          title: 'Success',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        this.list.splice(index, 1)
+      })
+    }
 
-  },
-};
+  }
+}
 </script>
 

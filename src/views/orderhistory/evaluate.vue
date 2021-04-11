@@ -86,7 +86,7 @@
             show-score
             text-color="#ff9900"
             score-template="{value}"
-          ></el-rate>
+          />
         </template>
       </el-table-column>
 
@@ -100,10 +100,10 @@
         <template slot-scope="{row}">
           <el-tag :type="row.flag | statusFilter">{{ row.flag | tagFilter }}</el-tag>&nbsp;
           <el-tag v-if="row.appointmenttime > row.endtime" type="success">
-            <div v-html="'准&nbsp;&nbsp;&nbsp;&nbsp;时'"></div>
+            <div v-html="'准&nbsp;&nbsp;&nbsp;&nbsp;时'" />
           </el-tag>
           <el-tag v-else-if="row.appointmenttime < row.endtime" type="danger">
-            <div v-html="'超&nbsp;&nbsp;&nbsp;&nbsp;时'"></div>
+            <div v-html="'超&nbsp;&nbsp;&nbsp;&nbsp;时'" />
           </el-tag>
           <el-tag v-else type="info">未完成</el-tag>
         </template>
@@ -125,7 +125,7 @@
       </el-table-column>-->
       <el-table-column label="操作" align="center" width="130" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button size="mini" type="primary" slot="reference" @click="handleUpdate(row)">评价</el-button>
+          <el-button slot="reference" size="mini" type="primary" @click="handleUpdate(row)">评价</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -147,10 +147,10 @@
         style="width: 400px; margin-left:50px;"
       >
         <el-form-item label="评分" prop="rate">
-          <el-rate v-model="order.rate" show-text></el-rate>
+          <el-rate v-model="order.rate" show-text />
         </el-form-item>
         <el-form-item label="评价" prop="text">
-          <el-input type="textarea" :rows="2" placeholder="请输入评价" v-model="order.text"></el-input>
+          <el-input v-model="order.text" type="textarea" :rows="2" placeholder="请输入评价" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -162,42 +162,36 @@
 </template>
 
 <script>
-import { allBrand, allDeliver } from "@/api/goods";
-import { selectorder, updateorder } from "@/api/orderhistory";
+import { allBrand, allDeliver } from '@/api/goods'
+import { selectorder, updateorder } from '@/api/orderhistory'
 
-import Pagination from "@/components/Pagination";
+import Pagination from '@/components/Pagination'
 
 export default {
-  inject: ["reload"],
+  inject: ['reload'],
   components: { Pagination },
   filters: {
     statusFilter(status) {
       const statusMap = {
-        1: "a",
-        2: "warning",
-        3: "success",
-      };
-      return statusMap[status];
+        1: 'a',
+        2: 'warning',
+        3: 'success'
+      }
+      return statusMap[status]
     },
     tagFilter(status) {
-      let tag;
+      let tag
       if (status === 1) {
-        tag = "配送中";
+        tag = '配送中'
       } else if (status === 2) {
-        tag = "已送达";
+        tag = '已送达'
       } else if (status === 3) {
-        tag = "已评价";
+        tag = '已评价'
       }
-      return tag;
-    },
-  },
-  created() {
-    allDeliver().then((response) => (this.deliver = response.data));
-    allBrand().then((response) => (this.brand = response.data));
-    this.getList();
+      return tag
+    }
   },
   data() {
-
     return {
       tableKey: 0,
       list: null,
@@ -208,65 +202,69 @@ export default {
         limit: 10,
         name: '',
         tell: '',
-        bname: "",
-        person: "",
-        uid:this.$store.getters.id,
-        flag: 2,
+        bname: '',
+        person: '',
+        uid: this.$store.getters.id,
+        flag: 2
       },
       deliver: [],
       brand: [],
       dialogFormVisible: false,
-      dialogStatus: "",
+      dialogStatus: '',
       textMap: {
-        update: "评价",
-        create: "",
+        update: '评价',
+        create: ''
       },
       order: {
-        id: "",
+        id: '',
         rate: 1,
-        text: "",
-        flag: 2,
-      },
+        text: '',
+        flag: 2
+      }
 
-    };
+    }
+  },
+  created() {
+    allDeliver().then((response) => (this.deliver = response.data))
+    allBrand().then((response) => (this.brand = response.data))
+    this.getList()
   },
   methods: {
     getList() {
-      this.listLoading = false;
+      this.listLoading = false
       selectorder(this.listQuery).then((response) => {
-        this.list = response.data.items;
-        this.total = response.data.total;
+        this.list = response.data.items
+        this.total = response.data.total
 
         // Just to simulate the time of the request
         setTimeout(() => {
-          this.listLoading = false;
-        }, 1.5 * 1000);
-      });
+          this.listLoading = false
+        }, 1.5 * 1000)
+      })
     },
     handleFilter() {
-      this.listQuery.page = 1;
-      this.getList();
+      this.listQuery.page = 1
+      this.getList()
     },
     handleUpdate(row) {
-      (this.order.id = row.id), (this.dialogStatus = "update");
-      this.dialogFormVisible = true;
+      (this.order.id = row.id), (this.dialogStatus = 'update')
+      this.dialogFormVisible = true
     },
     updateData() {
-
       updateorder(this.order).then((data) => {
-        this.dialogFormVisible = false;
-        if (data.data === "success") {
-          this.reload(); // 调用刷新方法
+        this.dialogFormVisible = false
+        if (data.data === 'success') {
+          this.reload() // 调用刷新方法
         }
         this.$notify({
-          title: "Success",
-          message: "评价成功",
-          type: "success",
-          duration: 2000,
-        });
-      });
-    },
-  },
-};
+          title: 'Success',
+          message: '评价成功',
+          type: 'success',
+          duration: 2000
+        })
+      })
+    }
+  }
+}
 </script>
 

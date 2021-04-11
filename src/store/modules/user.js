@@ -18,7 +18,7 @@ const getDefaultState = () => {
     id: '',
     name: '',
     tell: '',
-    area:[],
+    area: [],
     addr: '',
     roles: '',
     sex: '',
@@ -98,7 +98,7 @@ const actions = {
         if (!data) {
           return reject('Verification failed, please Login again.')
         } else {
-          console.log(data);
+          console.log(data)
           let roles
           const {
             name,
@@ -112,24 +112,22 @@ const actions = {
 
           if (data.roles === 1) {
             roles = ['admin']
-
           } else {
             roles = ['normal']
           }
 
-          if (avatar === ''||typeof(avatar) == "undefined") {
+          if (avatar === '' || typeof (avatar) === 'undefined') {
             commit('SET_AVATAR', 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
           } else {
             commit('SET_AVATAR', avatar)
           }
 
-
-          if (area === ''||typeof(area) == "undefined") {
+          if (area === '' || typeof (area) === 'undefined') {
             commit('SET_AREA', [])
           } else {
             commit('SET_AREA', area.split(','))
           }
-          console.log(area);
+          console.log(area)
           commit('SET_ROLES', roles)
           commit('SET_SEX', sex)
           commit('SET_NAME', name)

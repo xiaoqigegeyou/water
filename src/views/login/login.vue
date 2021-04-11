@@ -5,9 +5,9 @@
     <div id="login-box">
       <div class="login-banner" />
       <el-form
+        ref="ruleForm"
         :model="ruleForm"
         size="medium"
-        ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm"
         :label-position="labelPosition"
@@ -16,21 +16,21 @@
           <h3 class="title">登录界面</h3>
         </div>
         <el-form-item label="账号" prop="tell">
-          <el-input v-model="ruleForm.tell" placeholder="电话号码" style="width: 200px;"></el-input>
+          <el-input v-model="ruleForm.tell" placeholder="电话号码" style="width: 200px;" />
         </el-form-item>
         <el-form-item label="密码" prop="pass">
           <el-input
-            type="password"
             v-model="ruleForm.pass"
+            type="password"
             autocomplete="off"
             placeholder="密码"
             style="width: 200px;"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submit" size="medium" style="margin-right:20px;">登录</el-button>
+          <el-button type="primary" size="medium" style="margin-right:20px;" @click="submit">登录</el-button>
 
-          <el-button @click="register" size="medium">注册</el-button>
+          <el-button size="medium" @click="register">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -41,28 +41,28 @@
 export default {
   data() {
     return {
-      labelPosition: "right",
+      labelPosition: 'right',
       ruleForm: {
-        tell: "",
-        pass: "",
-      },
-    };
+        tell: '',
+        pass: ''
+      }
+    }
   },
   methods: {
     submit() {
       // if (this.ruleForm.tell === "111" && this.ruleForm.pass === "111")
       //   alert("登陆成功");
       // else alert("账号或密码错误");
-      this.$store.dispatch("user/login", this.ruleForm).then(() => {
-        console.log(11);
-        this.$router.push('/');
-      });
+      this.$store.dispatch('user/login', this.ruleForm).then(() => {
+        console.log(11)
+        this.$router.push('/')
+      })
     },
     register() {
-      this.$router.push("/register");
-    },
-  },
-};
+      this.$router.push('/register')
+    }
+  }
+}
 </script>
 
 <style scoped>

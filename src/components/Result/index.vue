@@ -1,43 +1,43 @@
 <template>
-    <div class="result">
-        <div v-if="type === 'success'" class="icon icon-success">
-            <i class="el-icon-success" />
-        </div>
-        <div v-else-if="type === 'warning'" class="icon icon-warning">
-            <i class="el-icon-warning" />
-        </div>
-        <div v-else class="icon icon-error">
-            <i class="el-icon-error" />
-        </div>
-        <h1>{{ title }}</h1>
-        <div v-if="desc" class="desc">{{ desc }}</div>
-        <div v-if="$slots.extra" class="extra">
-            <slot name="extra" />
-        </div>
-        <div v-if="$slots.default" class="actions">
-            <slot />
-        </div>
+  <div class="result">
+    <div v-if="type === 'success'" class="icon icon-success">
+      <i class="el-icon-success" />
     </div>
+    <div v-else-if="type === 'warning'" class="icon icon-warning">
+      <i class="el-icon-warning" />
+    </div>
+    <div v-else class="icon icon-error">
+      <i class="el-icon-error" />
+    </div>
+    <h1>{{ title }}</h1>
+    <div v-if="desc" class="desc">{{ desc }}</div>
+    <div v-if="$slots.extra" class="extra">
+      <slot name="extra" />
+    </div>
+    <div v-if="$slots.default" class="actions">
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'Result',
-    props: {
-        type: {
-            type: String,
-            validator: val => ['success', 'warning', 'error'].includes(val),
-            required: true
-        },
-        title: {
-            type: String,
-            required: true
-        },
-        desc: {
-            type: String,
-            default: ''
-        }
+  name: 'Result',
+  props: {
+    type: {
+      type: String,
+      validator: val => ['success', 'warning', 'error'].includes(val),
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    desc: {
+      type: String,
+      default: ''
     }
+  }
 }
 </script>
 

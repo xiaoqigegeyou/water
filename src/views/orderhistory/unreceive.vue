@@ -86,7 +86,7 @@
             show-score
             text-color="#ff9900"
             score-template="{value}"
-          ></el-rate>
+          />
         </template>
       </el-table-column>
 
@@ -100,10 +100,10 @@
         <template slot-scope="{row}">
           <el-tag :type="row.flag | statusFilter">{{ row.flag | tagFilter }}</el-tag>&nbsp;
           <el-tag v-if="row.appointmenttime > row.endtime" type="success">
-            <div v-html="'准&nbsp;&nbsp;&nbsp;&nbsp;时'"></div>
+            <div v-html="'准&nbsp;&nbsp;&nbsp;&nbsp;时'" />
           </el-tag>
           <el-tag v-else-if="row.appointmenttime < row.endtime" type="danger">
-            <div v-html="'超&nbsp;&nbsp;&nbsp;&nbsp;时'"></div>
+            <div v-html="'超&nbsp;&nbsp;&nbsp;&nbsp;时'" />
           </el-tag>
           <el-tag v-else type="info">未完成</el-tag>
         </template>
@@ -131,7 +131,7 @@
               <el-button size="mini" type="text" @click="visible = false">取消</el-button>
               <el-button type="primary" size="mini" @click="visible = false,handleUpdate(row)">确定</el-button>
             </div>
-            <el-button size="mini" type="primary" slot="reference">签收</el-button>
+            <el-button slot="reference" size="mini" type="primary">签收</el-button>
           </el-popover>
         </template>
       </el-table-column>
@@ -147,39 +147,34 @@
 </template>
 
 <script>
-import { allBrand, allDeliver } from "@/api/goods";
-import { selectorder, updateorder } from "@/api/orderhistory";
+import { allBrand, allDeliver } from '@/api/goods'
+import { selectorder, updateorder } from '@/api/orderhistory'
 
-import Pagination from "@/components/Pagination";
+import Pagination from '@/components/Pagination'
 
 export default {
-  inject: ["reload"],
+  inject: ['reload'],
   components: { Pagination },
   filters: {
     statusFilter(status) {
       const statusMap = {
-        1: "a",
-        2: "warning",
-        3: "success",
-      };
-      return statusMap[status];
+        1: 'a',
+        2: 'warning',
+        3: 'success'
+      }
+      return statusMap[status]
     },
     tagFilter(status) {
-      let tag;
+      let tag
       if (status === 1) {
-        tag = "配送中";
+        tag = '配送中'
       } else if (status === 2) {
-        tag = "已送达";
+        tag = '已送达'
       } else if (status === 3) {
-        tag = "已评价";
+        tag = '已评价'
       }
-      return tag;
-    },
-  },
-  created() {
-    allDeliver().then((response) => (this.deliver = response.data));
-    allBrand().then((response) => (this.brand = response.data));
-    this.getList();
+      return tag
+    }
   },
   data() {
     return {
@@ -192,48 +187,53 @@ export default {
         limit: 10,
         name: '',
         tell: '',
-        bname: "",
-        person: "",
-        uid:this.$store.getters.id,
-        flag: 1,
+        bname: '',
+        person: '',
+        uid: this.$store.getters.id,
+        flag: 1
       },
       deliver: [],
-      brand: [],
-    };
+      brand: []
+    }
+  },
+  created() {
+    allDeliver().then((response) => (this.deliver = response.data))
+    allBrand().then((response) => (this.brand = response.data))
+    this.getList()
   },
   methods: {
     getList() {
-      this.listLoading = false;
+      this.listLoading = false
       selectorder(this.listQuery).then((response) => {
-        this.list = response.data.items;
-        this.total = response.data.total;
+        this.list = response.data.items
+        this.total = response.data.total
 
         // Just to simulate the time of the request
         setTimeout(() => {
-          this.listLoading = false;
-        }, 1.5 * 1000);
-      });
+          this.listLoading = false
+        }, 1.5 * 1000)
+      })
     },
     handleFilter() {
-      this.listQuery.page = 1;
-      this.getList();
+      this.listQuery.page = 1
+      this.getList()
     },
     handleUpdate(row) {
-      row.endtime = new Date().getTime();
-      console.log(row);
+      row.endtime = new Date().getTime()
+      console.log(row)
       this.$notify({
-        title: "Success",
-        message: "签收成功",
-        type: "success",
-        duration: 2000,
+        title: 'Success',
+        message: '签收成功',
+        type: 'success',
+        duration: 2000
       }),
-        updateorder(row).then((data) => {
-          if (data.data === "success") {
-            this.reload(); // 调用刷新方法
-          }
-        });
-    },
-  },
-};
+      updateorder(row).then((data) => {
+        if (data.data === 'success') {
+          this.reload() // 调用刷新方法
+        }
+      })
+    }
+  }
+}
 </script>
 

@@ -1,10 +1,10 @@
 <template>
-  <el-form :rules="rules" ref="form" :model="form">
+  <el-form ref="form" :rules="rules" :model="form">
     <el-form-item label="新密码" prop="pass">
-      <el-input show-password v-model="form.pass"  placeholder="新密码"></el-input>
+      <el-input v-model="form.pass" show-password placeholder="新密码" />
     </el-form-item>
     <el-form-item label="确认密码" prop="checkPass">
-      <el-input show-password  v-model="form.checkPass"  placeholder="确认密码"></el-input>
+      <el-input v-model="form.checkPass" show-password placeholder="确认密码" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submit('form')">修改密码</el-button>
@@ -13,81 +13,78 @@
 </template>
 
 <script>
-import { updateInfo } from "@/api/user";
-import CascaderArea from "@/components/CascaderArea";
+import { updateInfo } from '@/api/user'
+import CascaderArea from '@/components/CascaderArea'
 export default {
   components: {
-    CascaderArea,
+    CascaderArea
   },
 
   data() {
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else {
-        if (this.form.checkPass !== "") {
-          this.$refs.form.validateField("checkPass");
+        if (this.form.checkPass !== '') {
+          this.$refs.form.validateField('checkPass')
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.form.pass) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error('两次输入密码不一致!'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
 
     return {
 
-      form2:{
+      form2: {
         id: this.$store.getters.id,
-        pass: '',
+        pass: ''
       },
       form: {
         checkPass: '',
-        pass: '',
+        pass: ''
       },
       rules: {
-        pass: [{ required: true, validator: validatePass, trigger: "blur" }],
-        checkPass: [{ required: true, validator: validatePass2, trigger: "blur" }],
-      },
-    };
+        pass: [{ required: true, validator: validatePass, trigger: 'blur' }],
+        checkPass: [{ required: true, validator: validatePass2, trigger: 'blur' }]
+      }
+    }
   },
   methods: {
     submit(formName) {
-
       this.$refs[formName].validate((valid) => {
         if (valid) {
-
-          this.form2.pass=this.form.pass
+          this.form2.pass = this.form.pass
           updateInfo(this.form2).then(() => {
             this.$message({
-              message: "密码更改已成功",
-              type: "success",
-              duration: 2000,
-            });
-          });
+              message: '密码更改已成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
           this.$nextTick(() => {
-        this.$refs[formName].resetFields();
-      });
+            this.$refs[formName].resetFields()
+          })
         } else {
-
-         this.$refs[formName].resetFields();
+          this.$refs[formName].resetFields()
 
           this.$message({
-            message: "密码更改失败",
-            type: "warning",
-            duration: 2000,
-          });
+            message: '密码更改失败',
+            type: 'warning',
+            duration: 2000
+          })
 
-          return false;
+          return false
         }
-      });
-    },
+      })
+    }
     // submit() {
     //   (this.form.id = this.user.id),
     //     (this.form.name = this.user.name),
@@ -112,6 +109,6 @@ export default {
     //   });
 
     // },
-  },
-};
+  }
+}
 </script>

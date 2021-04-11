@@ -24,7 +24,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  lintOnSave: false ,
+  lintOnSave: false,
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
@@ -35,7 +35,7 @@ module.exports = {
     open: true,
     overlay: {
       warnings: false,
-      errors: true
+      errors: false
     },
     // before: require('./mock/mock-server.js')
     proxy: {
@@ -48,7 +48,7 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       }
-    },
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

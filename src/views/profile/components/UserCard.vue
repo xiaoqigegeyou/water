@@ -8,7 +8,7 @@
       <div class="box-center">
         <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
           <div>Hello</div>
-          {{ user.name}}
+          {{ user.name }}
         </pan-thumb>
       </div>
       <div class="box-center">
@@ -22,7 +22,7 @@
         <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>联系方式</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            电话号码：{{user.tell}}
+            电话号码：{{ user.tell }}
           </div>
         </div>
       </div>
@@ -31,7 +31,7 @@
         <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>地址</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            {{address}}
+            {{ address }}
           </div>
 
         </div>
@@ -48,11 +48,11 @@ export default {
   filters: {
     rolesFilter(status) {
       const statusMap = {
-        normal: "用户",
-        admin: "管理员",
-      };
-      return statusMap[status];
-    },
+        normal: '用户',
+        admin: '管理员'
+      }
+      return statusMap[status]
+    }
   },
   props: {
     user: {
@@ -63,22 +63,22 @@ export default {
           tell: '',
           avatar: '',
           role: '',
-          addr:'',
-          area:[]
+          addr: '',
+          area: []
         }
       }
     }
   },
-   computed: {
+  computed: {
     address() {
-     if(this.user.area.length === 0){
-      return this.user.addr;
-      }else{
-        return this.user.area.join(" ")+" "+this.user.addr
+      if (this.user.area.length === 0) {
+        return this.user.addr
+      } else {
+        return this.user.area.join(' ') + ' ' + this.user.addr
       }
-    },
+    }
 
-  },
+  }
 }
 </script>
 

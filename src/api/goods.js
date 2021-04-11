@@ -10,14 +10,14 @@ export function insrtOrder(data) {
 export function allBrand() {
   return request({
     url: '/brand/selectAll',
-    method: 'post',
+    method: 'post'
 
   })
 }
 export function allDeliver() {
   return request({
     url: '/deliver/selectAll',
-    method: 'post',
-   
+    method: 'post'
+
   })
 }

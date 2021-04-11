@@ -42,8 +42,8 @@
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column label="ID" type="index" align="center" width="50"></el-table-column>
-      <el-table-column label="姓名" width="250px" align="center" >
+      <el-table-column label="ID" type="index" align="center" width="50" />
+      <el-table-column label="姓名" width="250px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
@@ -68,7 +68,7 @@
             show-score
             text-color="#ff9900"
             score-template="{value}"
-          ></el-rate>
+          />
         </template>
       </el-table-column>
 
@@ -107,8 +107,8 @@
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-radio-group v-model="temp.sex">
-            <el-radio label="男"></el-radio>
-            <el-radio label="女"></el-radio>
+            <el-radio label="男" />
+            <el-radio label="女" />
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -125,18 +125,14 @@ import {
   selectDeliver,
   updateDeliver,
   addDeliver,
-  deleteDeliver,
-} from "@/api/manageDeliver";
+  deleteDeliver
+} from '@/api/manageDeliver'
 
-import Pagination from "@/components/Pagination";
+import Pagination from '@/components/Pagination'
 
 export default {
-  inject: ["reload"],
+  inject: ['reload'],
   components: { Pagination },
-
-  created() {
-    this.getList();
-  },
   data() {
     return {
       tableKey: 0,
@@ -146,87 +142,91 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        name: "",
-        tell: "",
+        name: '',
+        tell: ''
       },
       dialogFormVisible: false,
-      dialogStatus: "",
+      dialogStatus: '',
       brand: [],
       textMap: {
-        update: "更新信息",
-        create: "创建",
+        update: '更新信息',
+        create: '创建'
       },
       temp: {
-        id: "",
-        name: "",
-        tell: "",
-        sex: "",
-        rate: 0,
+        id: '',
+        name: '',
+        tell: '',
+        sex: '',
+        rate: 0
       },
       rules: {
-        name: [{ required: true, message: "姓名不能为空", trigger: "blur" }],
-        tell: [{ required: true, message: "电话不能为空", trigger: "blur" }],
-        sex: [{ required: true, message: "请选择性别", trigger: "change" }],
-      },
-    };
+        name: [{ required: true, message: '姓名不能为空', trigger: 'blur' }],
+        tell: [{ required: true, message: '电话不能为空', trigger: 'blur' }],
+        sex: [{ required: true, message: '请选择性别', trigger: 'change' }]
+      }
+    }
+  },
+
+  created() {
+    this.getList()
   },
   methods: {
     getList() {
-      this.listLoading = false;
+      this.listLoading = false
       // allBrand().then((response) => (this.brand = response.data));
       selectDeliver(this.listQuery).then((response) => {
-        this.list = response.data.items;
-        this.total = response.data.total;
+        this.list = response.data.items
+        this.total = response.data.total
 
         // Just to simulate the time of the request
         setTimeout(() => {
-          this.listLoading = false;
-        }, 1.5 * 1000);
-      });
+          this.listLoading = false
+        }, 1.5 * 1000)
+      })
     },
     resetTemp() {
       this.temp = {
-        id: "",
-        name: "",
-        tell: "",
-        sex: "男",
-        rate: 0,
-      };
+        id: '',
+        name: '',
+        tell: '',
+        sex: '男',
+        rate: 0
+      }
     },
     handleFilter() {
-      this.listQuery.page = 1;
-      this.getList();
+      this.listQuery.page = 1
+      this.getList()
     },
     handleCreate() {
-      this.resetTemp();
-      this.dialogStatus = "create";
-      this.dialogFormVisible = true;
+      this.resetTemp()
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
       form2
     },
     createData() {
-      this.$refs["dataForm"].validate((valid) => {
+      this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           addDeliver(this.temp).then(() => {
-            this.list.unshift(this.temp);
-            this.dialogFormVisible = false;
+            this.list.unshift(this.temp)
+            this.dialogFormVisible = false
             this.$notify({
-              title: "Success",
-              message: "添加成功",
-              type: "success",
-              duration: 2000,
-            });
-          });
+              title: 'Success',
+              message: '添加成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
         }
-      });
+      })
     },
     handleUpdate(row) {
-      this.temp = Object.assign({}, row); // copy obj
+      this.temp = Object.assign({}, row) // copy obj
 
-      this.dialogStatus = "update";
-      this.dialogFormVisible = true;
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
       this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
+        this.$refs['dataForm'].clearValidate()
+      })
 
       // updateorder(row).then((data) => {
       //   if (data.data === "success") {
@@ -235,36 +235,36 @@ export default {
       // });
     },
     updateData() {
-      this.$refs["dataForm"].validate((valid) => {
+      this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          const tempData = Object.assign({}, this.temp);
-          tempData.timestamp = +new Date(tempData.timestamp); // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+          const tempData = Object.assign({}, this.temp)
+          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
           updateDeliver(tempData).then(() => {
-            const index = this.list.findIndex((v) => v.id === this.temp.id);
-            this.list.splice(index, 1, this.temp);
-            this.dialogFormVisible = false;
+            const index = this.list.findIndex((v) => v.id === this.temp.id)
+            this.list.splice(index, 1, this.temp)
+            this.dialogFormVisible = false
             this.$notify({
-              title: "Success",
-              message: "更新成功",
-              type: "success",
-              duration: 2000,
-            });
-          });
+              title: 'Success',
+              message: '更新成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
         }
-      });
+      })
     },
     handleDelete(row, index) {
       deleteDeliver(row.id).then(() => {
         this.$notify({
-          title: "Success",
-          message: "删除成功",
-          type: "success",
-          duration: 2000,
-        });
-        this.list.splice(index, 1);
-      });
-    },
-  },
-};
+          title: 'Success',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        this.list.splice(index, 1)
+      })
+    }
+  }
+}
 </script>
 

@@ -1,19 +1,19 @@
 <template>
   <div class="card">
     <el-row :gutter="100" style="height:400px">
-      <el-col :span="8" v-for="(b,index) in brand" :key="index" :offset="1" style="width:350px">
-        
+      <el-col v-for="(b,index) in brand" :key="index" :span="8" :offset="1" style="width:350px">
+
         <el-card :body-style="{ padding: '0px', height:'360px' }" shadow="hover">
-          <img :src="b.image" class="image" />
+          <img :src="b.image" class="image">
           <div style="padding: 14px;">
             <span>
-              <h3>{{b.name}}</h3>
-              <h5>{{b.price}}元/桶</h5>
+              <h3>{{ b.name }}</h3>
+              <h5>{{ b.price }}元/桶</h5>
             </span>
             <div class="bottom clearfix">
-              <time class="time">{{ b.message}}</time>
+              <time class="time">{{ b.message }}</time>
             </div>
-            <Order :OneBrand='b'></Order>
+            <Order :one-brand="b" />
           </div>
         </el-card>
       </el-col>
@@ -23,23 +23,23 @@
 
 <script>
 
-import { insrtOrder, allBrand, allDeliver } from "@/api/goods";
-import Order from './order.vue';
+import { insrtOrder, allBrand, allDeliver } from '@/api/goods'
+import Order from './order.vue'
 
 export default {
+  components: {
+    Order
+  },
   data() {
     return {
-      brand: [],
-    };
+      brand: []
+    }
   },
   created() {
-    allBrand().then((response) => (this.brand = response.data));
+    allBrand().then((response) => (this.brand = response.data))
   },
-  components: {
-    Order,
-  },
-  methods: {},
-};
+  methods: {}
+}
 </script>
 
 <style>

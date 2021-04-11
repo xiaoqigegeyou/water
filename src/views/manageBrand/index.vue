@@ -35,7 +35,7 @@
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column label="ID" type="index" align="center" width="50"></el-table-column>
+      <el-table-column label="ID" type="index" align="center" width="50" />
       <el-table-column label="品牌" width="150px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
@@ -59,12 +59,12 @@
           <!-- <span>{{ row.image }}</span> -->
         </template>
       </el-table-column>
- <el-table-column label="容量" align="center"  prop="capacity" width="100">
+      <el-table-column label="容量" align="center" prop="capacity" width="100">
         <template slot-scope="{row}">
           <span>{{ row.capacity }}</span>
         </template>
       </el-table-column>
-       <el-table-column label="保质期" align="center" prop="warranty" width="100">
+      <el-table-column label="保质期" align="center" prop="warranty" width="100">
         <template slot-scope="{row}">
           <span>{{ row.warranty }}</span>
         </template>
@@ -104,10 +104,10 @@
           <el-input v-model="temp.price" />
         </el-form-item>
         <el-form-item label="描述" prop="message" style="width:800px">
-          <el-input type="textarea" autosize v-model="temp.message" />
+          <el-input v-model="temp.message" type="textarea" autosize />
         </el-form-item>
         <el-form-item label="图片" prop="image" style="width:800px">
-          <el-input type="textarea" autosize v-model="temp.image" />
+          <el-input v-model="temp.image" type="textarea" autosize />
         </el-form-item>
         <el-form-item label="容量" prop="capacity" style="width:800px">
           <el-input v-model="temp.capacity" />
@@ -130,18 +130,14 @@ import {
   selectBrand,
   updateBrand,
   addBrand,
-  deleteBrand,
-} from "@/api/manageBrand";
+  deleteBrand
+} from '@/api/manageBrand'
 
-import Pagination from "@/components/Pagination";
+import Pagination from '@/components/Pagination'
 
 export default {
-  inject: ["reload"],
+  inject: ['reload'],
   components: { Pagination },
-
-  created() {
-    this.getList();
-  },
   data() {
     return {
       tableKey: 0,
@@ -151,93 +147,97 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        name: "",
+        name: ''
       },
       dialogFormVisible: false,
-      dialogStatus: "",
+      dialogStatus: '',
       brand: [],
       textMap: {
-        update: "更新信息",
-        create: "创建",
+        update: '更新信息',
+        create: '创建'
       },
       temp: {
-        id: "",
-        name: "",
-        price: "",
-        message: "",
-        image: "",
-        capacity: "",
-        warranty: "",
+        id: '',
+        name: '',
+        price: '',
+        message: '',
+        image: '',
+        capacity: '',
+        warranty: ''
 
       },
       rules: {
-        name: [{ required: true, message: "品牌名不能为空", trigger: "blur" }],
-        price: [{ required: true, message: "单价不能为空", trigger: "blur" }],
-        image: [{ required: true, message: "照片不能为空", trigger: "blur" }],
-      },
-    };
+        name: [{ required: true, message: '品牌名不能为空', trigger: 'blur' }],
+        price: [{ required: true, message: '单价不能为空', trigger: 'blur' }],
+        image: [{ required: true, message: '照片不能为空', trigger: 'blur' }]
+      }
+    }
+  },
+
+  created() {
+    this.getList()
   },
   methods: {
     getList() {
-      this.listLoading = false;
+      this.listLoading = false
       // allBrand().then((response) => (this.brand = response.data));
       selectBrand(this.listQuery).then((response) => {
-        this.list = response.data.items;
-        this.total = response.data.total;
+        this.list = response.data.items
+        this.total = response.data.total
 
         // Just to simulate the time of the request
         setTimeout(() => {
-          this.listLoading = false;
-        }, 1.5 * 1000);
-      });
+          this.listLoading = false
+        }, 1.5 * 1000)
+      })
     },
     resetTemp() {
       this.temp = {
-        id: "",
-        name: "",
-        price: "",
-        message: "",
-        image: "",
-      };
+        id: '',
+        name: '',
+        price: '',
+        message: '',
+        image: ''
+      }
     },
     handleFilter() {
-      this.listQuery.page = 1;
-      this.getList();
+      this.listQuery.page = 1
+      this.getList()
     },
     handleCreate() {
-      this.resetTemp();
-      this.dialogStatus = "create";
-      this.dialogFormVisible = true;
+      this.resetTemp()
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
       this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
+        this.$refs['dataForm'].clearValidate()
+      })
     },
     createData() {
-      this.$refs["dataForm"].validate((valid) => {
+      this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           addBrand(this.temp).then((data) => {
-            if (data.data === "success") {
-              this.reload(); // 调用刷新方法
+            if (data.data === 'success') {
+              this.reload() // 调用刷新方法
             }
-            this.dialogFormVisible = false;
+            this.dialogFormVisible = false
             this.$notify({
-              title: "Success",
-              message: "添加成功",
-              type: "success",
-              duration: 2000,
-            });
-          });
+              title: 'Success',
+              message: '添加成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
         }
-      });
+      })
     },
     handleUpdate(row) {
-      this.temp = Object.assign({}, row); // copy obj
+      this.temp = Object.assign({}, row) // copy obj
 
-      this.dialogStatus = "update";
-      this.dialogFormVisible = true;
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
       this.$nextTick(() => {
-        this.$refs["dataForm"].clearValidate();
-      });
+        this.$refs['dataForm'].clearValidate()
+      })
 
       // updateorder(row).then((data) => {
       //   if (data.data === "success") {
@@ -246,37 +246,37 @@ export default {
       // });
     },
     updateData() {
-      this.$refs["dataForm"].validate((valid) => {
+      this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          const tempData = Object.assign({}, this.temp);
-          tempData.timestamp = +new Date(tempData.timestamp); // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+          const tempData = Object.assign({}, this.temp)
+          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
           updateBrand(tempData).then((data) => {
-            if (data.data === "success") {
-              this.reload(); // 调用刷新方法
+            if (data.data === 'success') {
+              this.reload() // 调用刷新方法
             }
-            this.dialogFormVisible = false;
+            this.dialogFormVisible = false
             this.$notify({
-              title: "Success",
-              message: "更新成功",
-              type: "success",
-              duration: 2000,
-            });
-          });
+              title: 'Success',
+              message: '更新成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
         }
-      });
+      })
     },
     handleDelete(row, index) {
       deleteBrand(row.id).then(() => {
         this.$notify({
-          title: "Success",
-          message: "删除成功",
-          type: "success",
-          duration: 2000,
-        });
-        this.list.splice(index, 1);
-      });
-    },
-  },
-};
+          title: 'Success',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        this.list.splice(index, 1)
+      })
+    }
+  }
+}
 </script>
 

@@ -5,11 +5,11 @@ const getters = {
   avatar: state => state.user.avatar,
   name: state => state.user.name,
   tell: state => state.user.tell,
-  area:state => state.user.area,
+  area: state => state.user.area,
   addr: state => state.user.addr,
   roles: state => state.user.roles,
   id: state => state.user.id,
   sex: state => state.user.sex,
-  permission_routes: state => state.permission.routes,
+  permission_routes: state => state.permission.routes
 }
 export default getters
