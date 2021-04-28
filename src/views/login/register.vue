@@ -43,7 +43,6 @@
         </el-form-item>
         <el-form-item label="详细地址" prop="addr">
           <el-input v-model="ruleForm.addr" type="textarea" placeholder="小区楼道/乡村名称" />
-
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">立即注册</el-button>
@@ -55,98 +54,110 @@
 </template>
 
 <script>
-import { register } from '@/api/user'
-import CascaderArea from '@/components/CascaderArea'
+import { register, getInfo } from "@/api/user";
+import CascaderArea from "@/components/CascaderArea";
 export default {
   components: {
-    CascaderArea
+    CascaderArea,
   },
   data() {
     var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
+      if (value === "") {
+        callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass')
+        if (this.ruleForm.checkPass !== "") {
+          this.$refs.ruleForm.validateField("checkPass");
         }
-        callback()
+        callback();
       }
-    }
+    };
     var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
       } else if (value !== this.ruleForm.pass) {
-        callback(new Error('两次输入密码不一致!'))
+        callback(new Error("两次输入密码不一致!"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     var validatetell = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('电话不能为空'))
+        return callback(new Error("电话不能为空"));
       }
+
       setTimeout(() => {
+
         if (value.length != 11) {
-          callback(new Error('电话号码格式错误'))
+          callback(new Error("电话号码格式错误"));
         } else {
-          callback()
+            // var re =1;
+         getInfo(value).then((re)=>{
+
+            if ( re.data!== 0) {
+            callback(new Error("该电话号码已经被使用！"));
+            }else{
+              callback();
+            }
+
+         })
         }
-      }, 1000)
-    }
+      }, 1000);
+    };
 
     return {
       // area: ['山东省' , '济南市' , '长清区'],
 
-      labelPosition: 'right',
+      labelPosition: "right",
       area: [],
       ruleForm: {
-        name: '',
-        tell: '',
-        sex: '男',
-        pass: '',
-        checkPass: '',
-        area: '',
-        addr: ''
+        name: "",
+        tell: "",
+        sex: "男",
+        pass: "",
+        checkPass: "",
+        area: "",
+        addr: "",
       },
+
       rules: {
         name: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { required: true, message: "请输入用户名", trigger: "blur" },
           {
             min: 1,
             max: 10,
-            message: '长度在 1 到 10 个字符',
-            trigger: 'blur'
-          }
+            message: "长度在 1 到 10 个字符",
+            trigger: "blur",
+          },
         ],
-        tell: [{ required: true, validator: validatetell, trigger: 'blur' }],
-        sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        pass: [{ required: true, validator: validatePass, trigger: 'blur' }],
+        tell: [{ required: true, validator: validatetell, trigger: "blur" }],
+        sex: [{ required: true, message: "请选择性别", trigger: "change" }],
+        pass: [{ required: true, validator: validatePass, trigger: "blur" }],
         checkPass: [
-          { required: true, validator: validatePass2, trigger: 'blur' }
-        ]
-      }
-    }
+          { required: true, validator: validatePass2, trigger: "blur" },
+        ],
+      },
+    };
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.ruleForm.area = this.area.join(',')
-          console.log(this.ruleForm)
+          this.ruleForm.area = this.area.join(",");
+          console.log(this.ruleForm);
           register(this.ruleForm)
-            .then(alert('注册成功!'))
-            .then(this.$router.push('/login'))
+            .then(alert("注册成功!"))
+            .then(this.$router.push("/login"));
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields()
-    }
-  }
-}
+      this.$refs[formName].resetFields();
+    },
+  },
+};
 </script>
 
 <style scoped>
