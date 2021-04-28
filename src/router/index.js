@@ -186,6 +186,46 @@ export const asyncRoutes = [{
 
 },
 {
+  path: '/warehouse',
+  component: Layout,
+  name: 'warehouse',
+  meta: {
+    title: '仓库管理',
+    icon: 'nested',
+    roles: ['admin']
+  },
+  children: [{
+    path: 'inandout',
+    name: 'inandout',
+    component: () => import('@/views/warehouse/inandout'),
+    meta: {
+      title: '出入库总览',
+      icon: 'table',
+      roles: ['admin']
+    }
+  },
+  {
+    path: 'inwater',
+    name: 'inwater',
+    component: () => import('@/views/warehouse/inWater'),
+    meta: {
+      title: '入库详情',
+      icon: 'table',
+      roles: ['admin']
+    }
+  }, {
+    path: 'outwater',
+    name: 'outwater',
+    component: () => import('@/views/warehouse/outWater'),
+    meta: {
+      title: '出库详情',
+      icon: 'table',
+      roles: ['admin']
+    }
+  }
+  ]
+},
+{
   path: '/profile',
   component: Layout,
   redirect: '/profile/index',

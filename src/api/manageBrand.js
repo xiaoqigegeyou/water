@@ -7,6 +7,14 @@ export function selectBrand(data) {
     data
   })
 }
+export function selectAllBrand(data) {
+  return request({
+    url: '/brand/selectAll',
+    method: 'post',
+    data
+  })
+}
+
 export function updateBrand(data) {
   return request({
     url: '/brand/updateBrand',

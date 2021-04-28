@@ -7,6 +7,13 @@ export function selectDeliver(data) {
     data
   })
 }
+export function selectAllDeliver(data) {
+  return request({
+    url: '/deliver/selectAll',
+    method: 'post',
+    data
+  })
+}
 export function updateDeliver(data) {
   return request({
     url: '/deliver/updateDeliver',
