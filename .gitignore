@@ -8,9 +8,13 @@ package-lock.json
 tests/**/coverage/
 .history
 # Editor directories and files
-.idea
 .vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+# Maven #
+target/
+# IDEA #
+.idea/
+*.iml
