@@ -123,7 +123,7 @@
           <span>{{ row.text }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column label="操作" align="center" width="130" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="180" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-popover placement="top" width="160">
             <p>确认签收？</p>
@@ -132,7 +132,13 @@
               <el-button type="primary" size="mini" @click="visible = false,handleUpdate(row)">确定</el-button>
             </div>
             <el-button slot="reference" size="mini" type="primary">签收</el-button>
-          </el-popover>
+          </el-popover>&nbsp;&nbsp;
+           <el-button
+            v-if="row.status!='deleted'"
+            size="mini"
+            type="danger"
+            @click="handleDelete(row,$index)"
+          >退订</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -148,7 +154,7 @@
 
 <script>
 import { allBrand, allDeliver } from '@/api/goods'
-import { selectorder, updateorder } from '@/api/orderhistory'
+import { selectorder, updateorder,deleteorder } from '@/api/orderhistory'
 
 import Pagination from '@/components/Pagination'
 
@@ -231,6 +237,17 @@ export default {
         if (data.data === 'success') {
           this.reload() // 调用刷新方法
         }
+      })
+    },
+     handleDelete(row, index) {
+      deleteorder(row.id).then(() => {
+        this.$notify({
+          title: 'Success',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        this.list.splice(index, 1)
       })
     }
   }
